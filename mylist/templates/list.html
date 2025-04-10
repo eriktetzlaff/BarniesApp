@@ -20,12 +20,25 @@
             padding-left: 20px;
             box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
         }
-        button {
+        .addbutton {
             height: 48px;
             width: 48px;
             border-radius: 50%;
             box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
             background-color: blue;
+            border: unset;
+            font-size: 32px;
+            color: white;
+            position: absolute;
+            right: 64px;
+            bottom: 16px;
+        }
+        .deletebutton {
+            height: 48px;
+            width: 48px;
+            border-radius: 50%;
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+            background-color: red;
             border: unset;
             font-size: 32px;
             color: white;
@@ -58,8 +71,12 @@
         </div>
         {% endfor %}
 
-        <button onclick="addItem()">
+        <button class="addbutton" onclick="addItem()">
             +
+        </button>
+
+        <button class="deletebutton" onclick="deleteItem()">
+            -
         </button>
 
         <script>
@@ -69,11 +86,34 @@
                 let formData = new FormData();
                 formData.append('itemName', itemName);
                 formData.append('csrfmiddlewaretoken', token);
+                formData.append('action', 'create');
                 fetch('/list/', {
                     method: 'POST',
                     body: formData
+                }).then(() => {
+                    location.reload(); // Seite neu laden, um die Änderungen zu sehen
+                });;
+            }
+            function getName() {
+                document = document.getElementsByClassName();
+            }
+
+            function deleteItem() {
+                let itemName = prompt('Element löschen:');
+                let token = '{{ csrf_token }}';
+                let formData = new FormData();
+                formData.append('itemName', itemName);
+                formData.append('csrfmiddlewaretoken', token);
+                formData.append('action', 'delete'); // wichtig!
+
+                fetch('/list/', {
+                    method: 'POST',
+                    body: formData
+                }).then(() => {
+                    location.reload(); // Seite neu laden, um die Änderungen zu sehen
                 });
             }
+
         </script>
 </body>
 </html>
