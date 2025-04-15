@@ -1,9 +1,11 @@
 import React from "react";
 import { createRoot } from 'react-dom/client';
+import "bootstrap/dist/css/bootstrap.min.css"
+import App from "./app";
 
-const element = <h1>Hello World</h1>;
 
 const root = createRoot(document.getElementById('root'))
-root.render(element)
+root.render(<App/>) 
+
 
 
